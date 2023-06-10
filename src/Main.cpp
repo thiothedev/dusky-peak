@@ -2,6 +2,8 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "Utils/File.hpp"
+
 // Constants
 const unsigned int WINDOW_WIDTH  = 800;
 const unsigned int WINDOW_HEIGHT = 600;
@@ -48,6 +50,10 @@ int main()
   GLclampf blue  = 0.f;
   GLclampf alpha = 0.f;
   glClearColor(red, green, blue, alpha);
+
+  // Shaders
+  const char* vertexShaderSource = dp::file::getContents("src/Shaders/default.vert");
+  const char* fragmentShaderSource = dp::file::getContents("src/Shaders/default.frag");
 
   // Main Loop
   while (!glfwWindowShouldClose(window))

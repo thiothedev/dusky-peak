@@ -16,10 +16,14 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 
+# Globs
+FILE(GLOB UtilSources src/Utils/*.hpp)
+
 # Executable
 add_executable(
   ${PROJECT_NAME}
   src/Main.cpp
+  ${UtilSources}
 )
 target_include_directories(${PROJECT_NAME} PUBLIC src)
 target_link_libraries(${PROJECT_NAME} PUBLIC GL GLEW glfw)
