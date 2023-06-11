@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+#include "Headers/Shader.hpp"
 #include "Utils/File.hpp"
 
 // Constants
@@ -67,60 +68,8 @@ int main()
   GLclampf alpha = 0.f;
   glClearColor(red, green, blue, alpha);
 
-  // Shaders
-  const char* vertexShaderSource = dp::file::getContents("src/Shaders/default.vert");
-  const char* fragmentShaderSource = dp::file::getContents("src/Shaders/default.frag");
-
-  // Info Log
-  int success;
-  char infoLog[INFO_LOG_SIZE];
-
-  GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-  GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-  glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-  glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-
-  glCompileShader(vertexShader);
-  glCompileShader(fragmentShader);
-
-  // Vertex Shader Validation
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-  if (!success)
-  {
-    glGetShaderInfoLog(vertexShader, INFO_LOG_SIZE, NULL, infoLog);
-    std::cerr << "Failed to compile the vertex shader!" << std::endl;
-    std::cerr << "Error: " << infoLog << std::endl;
-  }
-
-  // Fragment Shader Validation
-  glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-  if (!success)
-  {
-    glGetShaderInfoLog(fragmentShader, INFO_LOG_SIZE, NULL, infoLog);
-    std::cerr << "Failed to compile the fragment shader!" << std::endl;
-    std::cerr << "Error: " << infoLog << std::endl;
-  }
-
   // Shader Program
-  GLuint shaderProgram = glCreateProgram();
-
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-
-  // Shader Program Validation
-  glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-  if (!success)
-  {
-    glGetShaderInfoLog(shaderProgram, INFO_LOG_SIZE, NULL, infoLog);
-    std::cerr << "Failed to link the shader program!" << std::endl;
-    std::cerr << "Error: " << infoLog << std::endl;
-  }
-
-  // Deleting the Shaders
-  glDeleteShader(vertexShader);
-  glDeleteShader(fragmentShader);
+  dp::Shader defaultShader("src/Shaders/default.vert", "src/Shaders/default.frag");
 
   // Main Loop
   while (!glfwWindowShouldClose(window))
@@ -130,7 +79,7 @@ int main()
   }
 
   // Terminating the Program
-  glDeleteProgram(shaderProgram);
+  defaultShader.Delete();
   glfwTerminate();
   return 0;
 }

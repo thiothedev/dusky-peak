@@ -17,12 +17,16 @@ find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
 
 # Globs
-FILE(GLOB UtilSources src/Utils/*.hpp)
+FILE(GLOB ClassSources src/Classes/*.cpp)
+FILE(GLOB HeaderSources src/Headers/*.hpp)
+FILE(GLOB UtilSources src/Utils/*.cpp src/Utils/*.hpp)
 
 # Executable
 add_executable(
   ${PROJECT_NAME}
   src/Main.cpp
+  ${ClassSources}
+  ${HeaderSources}
   ${UtilSources}
 )
 target_include_directories(${PROJECT_NAME} PUBLIC src)
