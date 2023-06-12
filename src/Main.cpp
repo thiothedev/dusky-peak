@@ -16,12 +16,12 @@ const unsigned int INFO_LOG_SIZE = 512;
 
 // Vertices and Indices
 GLfloat vertices[] = {
-  -0.5f,  -0.5f, 0.f,
-   0.0f,  -0.5f, 0.f,
-   0.5f,  -0.5f, 0.f,
-  -0.25f,  0.0f, 0.f,
-   0.25f,  0.0f, 0.f,
-   0.0f,   0.5f, 0.f,
+  -0.5f,  -0.5f, 0.f, 1.f, 0.f, 0.f,
+   0.0f,  -0.5f, 0.f, 0.f, 1.f, 0.f,
+   0.5f,  -0.5f, 0.f, 0.f, 0.f, 1.f,
+  -0.25f,  0.0f, 0.f, 1.f, 1.f, 0.f,
+   0.25f,  0.0f, 0.f, 0.f, 1.f, 1.f,
+   0.0f,   0.5f, 0.f, 1.f, 0.f, 1.f,
 };
 GLuint indices[] = {
   0, 1, 3,
@@ -83,7 +83,8 @@ int main()
   VBO1.Bind();
   EBO1.Bind();
 
-  VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 0, (void*)0);
+  VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, sizeof(GLfloat) * 6, (void*)0);
+  VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, sizeof(GLfloat) * 6, (void*)(3 * sizeof(GLfloat)));
 
   VAO1.Unbind();
   VBO1.Unbind();
