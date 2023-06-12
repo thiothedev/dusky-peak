@@ -3,6 +3,9 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 #include "Shader.hpp"
@@ -13,6 +16,9 @@
 extern const unsigned int WINDOW_WIDTH;
 extern const unsigned int WINDOW_HEIGHT;
 extern const char*        WINDOW_TITLE;
+extern const float        CAMERA_FOV;
+extern const float        CAMERA_NEAR;
+extern const float        CAMERA_FAR;
 
 // Callbacks
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
