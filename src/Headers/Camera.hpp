@@ -1,8 +1,18 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include <glm/glm.hpp>
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+extern const unsigned int WINDOW_WIDTH;
+extern const unsigned int WINDOW_HEIGHT;
+extern const float        CAMERA_FOV;
+extern const float        CAMERA_NEAR;
+extern const float        CAMERA_FAR;
+extern const float        CAMERA_SPEED;
 
 namespace dp
 {
@@ -12,11 +22,11 @@ namespace dp
       // Construcor
       Camera();
 
-      glm::vec3 position;
+      glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
 
       // Functions
-      void HandleMovement();
-      void UpdateMatrices();
+      void HandleMovement(GLFWwindow* window);
+      void UpdateMatrices(const GLuint programID);
   };
 }
 

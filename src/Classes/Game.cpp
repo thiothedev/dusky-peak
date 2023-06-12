@@ -157,8 +157,8 @@ bool Game::initializeMembers()
 void Game::update()
 {
   glfwPollEvents();
-  this->camera->HandleMovement();
-  this->camera->UpdateMatrices();
+  this->camera->HandleMovement(this->window);
+  this->camera->UpdateMatrices(this->defaultShader->getID());
 }
 
 void Game::render()
@@ -166,22 +166,6 @@ void Game::render()
   glClear(GL_COLOR_BUFFER_BIT);
   this->defaultShader->Use();
   VAO1->Bind();
-
-  GLuint modelLoc = glGetUniformLocation(this->defaultShader->getID(), "model");
-  GLuint viewLoc = glGetUniformLocation(this->defaultShader->getID(), "view");
-  GLuint projLoc = glGetUniformLocation(this->defaultShader->getID(), "proj");
-
-  glm::mat4 model = glm::mat4(1.f);
-  glm::mat4 view = glm::mat4(1.f);
-  glm::mat4 proj = glm::mat4(1.f);
-
-  view = glm::translate(view, glm::vec3(0.f, 0.f, -5.f));
-  proj = glm::perspective(glm::radians(CAMERA_FOV), (float)WINDOW_WIDTH / WINDOW_HEIGHT, CAMERA_NEAR, CAMERA_FAR);
-
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-  glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-  glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
-
   glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, NULL);
   glfwSwapBuffers(this->window);
 }
