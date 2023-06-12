@@ -46,7 +46,7 @@ Game::~Game()
 
 // Functions
 
-bool Game::Initialize()
+bool Game::initialize()
 {
   this->initializeGlfw();
   if (!this->initializeWindow()) return false;
@@ -55,12 +55,12 @@ bool Game::Initialize()
   return true;
 }
 
-void Game::PrintTitle()
+void Game::printTitle()
 {
   std::cout << ENGINE_NAME << " " << ENGINE_VERSION << "\n" << std::endl;
 }
 
-void Game::Run()
+void Game::run()
 {
   // Main Loop
   while (!glfwWindowShouldClose(this->window))

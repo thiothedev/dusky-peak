@@ -7,12 +7,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-extern const unsigned int WINDOW_WIDTH;
-extern const unsigned int WINDOW_HEIGHT;
-extern const float        CAMERA_FOV;
-extern const float        CAMERA_NEAR;
-extern const float        CAMERA_FAR;
-extern const float        CAMERA_SPEED;
+#include "../Utils/Constants.hpp"
 
 namespace dp
 {

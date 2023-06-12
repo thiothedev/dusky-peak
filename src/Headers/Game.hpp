@@ -14,12 +14,8 @@
 #include "EBO.hpp"
 #include "Camera.hpp"
 
-// Constants
-extern const char*        ENGINE_NAME;
-extern const char*        ENGINE_VERSION;
-extern const unsigned int WINDOW_WIDTH;
-extern const unsigned int WINDOW_HEIGHT;
-extern const char*        WINDOW_TITLE;
+#include "../Utils/Constants.hpp"
+
 // Callbacks
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
 
@@ -47,9 +43,9 @@ namespace dp
       const float getDt() const;
 
       // Functions
-      bool Initialize();
-      void PrintTitle();
-      void Run();
+      bool initialize();
+      void printTitle();
+      void run();
 
     private:
       GLFWwindow* window;
