@@ -27,7 +27,11 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 
 Game::Game()
 {
+  int width, height;
+  unsigned char* data;
+  dp::image::loadFromPng("assets/Textures/bricks.png", &data, width, height);
 
+  delete[] data;
 }
 
 Game::~Game()

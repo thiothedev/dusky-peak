@@ -14,6 +14,7 @@
 #include "EBO.hpp"
 #include "Camera.hpp"
 
+#include "../Utils/Image.hpp"
 #include "../Utils/Constants.hpp"
 
 // Callbacks
