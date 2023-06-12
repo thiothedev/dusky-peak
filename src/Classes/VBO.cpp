@@ -4,11 +4,11 @@ using namespace dp;
 
 // Constructor
 
-VBO::VBO(GLfloat indices[], GLsizeiptr size)
+VBO::VBO(GLfloat vertices[], GLsizeiptr size)
 {
   glGenBuffers(1, &this->ID);
   glBindBuffer(GL_ARRAY_BUFFER, this->ID);
-  glBufferData(GL_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 

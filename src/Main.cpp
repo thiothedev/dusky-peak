@@ -4,6 +4,7 @@
 
 #include "Headers/Shader.hpp"
 #include "Headers/VBO.hpp"
+#include "Headers/EBO.hpp"
 #include "Utils/File.hpp"
 
 // Constants
@@ -74,6 +75,7 @@ int main()
 
   // VBO
   dp::VBO VBO1(vertices, sizeof(vertices));
+  dp::EBO EBO1(indices, sizeof(indices));
 
   // Main Loop
   while (!glfwWindowShouldClose(window))

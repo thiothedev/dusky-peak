@@ -1,15 +1,15 @@
-#ifndef VBO_HPP
-#define VBO_HPP
+#ifndef EBO_HPP
+#define EBO_HPP
 
 #include <GL/glew.h>
 
 namespace dp
 {
-  class VBO
+  class EBO
   {
     public:
       // Constructor
-      VBO(GLfloat vertices[], GLsizeiptr size);
+      EBO(GLuint indices[], GLsizeiptr size);
 
       // Accessors
       const GLuint getID() const;
@@ -24,4 +24,4 @@ namespace dp
   };
 }
 
-#endif // VBO_HPP
+#endif // EBO_HPP
