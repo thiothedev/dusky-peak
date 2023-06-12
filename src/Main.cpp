@@ -65,10 +65,10 @@ int main()
   std::cout << "GLEW: " << glewGetString(GLEW_VERSION) << std::endl;
 
   // Clear Color
-  GLclampf red   = 0.f;
-  GLclampf green = 0.f;
-  GLclampf blue  = 0.f;
-  GLclampf alpha = 0.f;
+  GLclampf red   = 0.0f;
+  GLclampf green = 0.3f;
+  GLclampf blue  = 0.3f;
+  GLclampf alpha = 1.0f;
   glClearColor(red, green, blue, alpha);
 
   // Shader Program
@@ -79,15 +79,32 @@ int main()
   dp::VBO VBO1(vertices, sizeof(vertices));
   dp::EBO EBO1(indices, sizeof(indices));
 
+  VAO1.Bind();
+  VBO1.Bind();
+  EBO1.Bind();
+
+  VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 0, (void*)0);
+
+  VAO1.Unbind();
+  VBO1.Unbind();
+  EBO1.Unbind();
+
   // Main Loop
   while (!glfwWindowShouldClose(window))
   {
     glfwPollEvents();
+    glClear(GL_COLOR_BUFFER_BIT);
+    defaultShader.Use();
+    VAO1.Bind();
+    glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, NULL);
     glfwSwapBuffers(window);
   }
 
   // Terminating the Program
   defaultShader.Delete();
+  VAO1.Delete();
+  VBO1.Delete();
+  EBO1.Delete();
   glfwTerminate();
   return 0;
 }

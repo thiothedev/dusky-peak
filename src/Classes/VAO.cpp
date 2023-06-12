@@ -20,7 +20,10 @@ const GLuint VAO::getID() const
 
 void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint size, GLenum type, GLsizei stride, const void* offset)
 {
+  VBO.Bind();
   glVertexAttribPointer(layout, size, type, GL_FALSE, stride, offset);
+  glEnableVertexAttribArray(layout);
+  VBO.Unbind();
 }
 
 void VAO::Bind()
