@@ -20,7 +20,7 @@ const unsigned int INFO_LOG_SIZE = 512;
 const float CAMERA_FOV   = 45.f;
 const float CAMERA_NEAR  = 0.1f;
 const float CAMERA_FAR   = 100.f;
-const float CAMERA_SPEED = 0.25f;
+const float CAMERA_SPEED = 2.f;
 
 int main()
 {

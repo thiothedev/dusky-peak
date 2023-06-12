@@ -70,6 +70,13 @@ void Game::Run()
   }
 }
 
+// Accessors
+
+const float Game::getDt() const
+{
+  return this->dt;
+}
+
 // Initializers
 
 void Game::initializeGlfw()
@@ -154,10 +161,18 @@ bool Game::initializeMembers()
 
 // Private Functions
 
+void Game::updateDt()
+{
+  double currentTime = glfwGetTime();
+  this->dt = currentTime - this->prevTime;
+  this->prevTime = currentTime;
+}
+
 void Game::update()
 {
   glfwPollEvents();
-  this->camera->HandleMovement(this->window);
+  this->updateDt();
+  this->camera->HandleMovement(this->window, this->dt);
   this->camera->UpdateMatrices(this->defaultShader->getID());
 }
 

@@ -25,7 +25,7 @@ namespace dp
       glm::vec3 position = glm::vec3(0.f, 0.f, 0.f);
 
       // Functions
-      void HandleMovement(GLFWwindow* window);
+      void HandleMovement(GLFWwindow* window, const float dt);
       void UpdateMatrices(const GLuint programID);
   };
 }

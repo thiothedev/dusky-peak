@@ -11,31 +11,31 @@ Camera::Camera()
 
 // Functions
 
-void Camera::HandleMovement(GLFWwindow* window)
+void Camera::HandleMovement(GLFWwindow* window, const float dt)
 {
   if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
   {
-    this->position += glm::vec3(0.f, 0.f, CAMERA_SPEED);
+    this->position += glm::vec3(0.f, 0.f, CAMERA_SPEED * dt);
   }
   if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
   {
-    this->position += glm::vec3(CAMERA_SPEED, 0.f, 0.f);
+    this->position += glm::vec3(CAMERA_SPEED * dt, 0.f, 0.f);
   }
   if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
   {
-    this->position += glm::vec3(0.f, 0.f, -CAMERA_SPEED);
+    this->position += glm::vec3(0.f, 0.f, -CAMERA_SPEED * dt);
   }
   if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
   {
-    this->position += glm::vec3(-CAMERA_SPEED, 0.f, 0.f);
+    this->position += glm::vec3(-CAMERA_SPEED * dt, 0.f, 0.f);
   }
   if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
   {
-    this->position += glm::vec3(0.f, CAMERA_SPEED, 0.f);
+    this->position += glm::vec3(0.f, CAMERA_SPEED * dt, 0.f);
   }
   if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
   {
-    this->position += glm::vec3(0.f, -CAMERA_SPEED, 0.f);
+    this->position += glm::vec3(0.f, -CAMERA_SPEED * dt, 0.f);
   }
 }
 

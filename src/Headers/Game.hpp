@@ -39,6 +39,13 @@ namespace dp
       EBO* EBO1;
       Camera* camera;
 
+      // Delta Time
+      double prevTime = 0.f;
+      float dt = 0.f;
+
+      // Accessors
+      const float getDt() const;
+
       // Functions
       bool Initialize();
       void PrintTitle();
@@ -53,8 +60,11 @@ namespace dp
       bool initializeGlew();
       bool initializeMembers();
 
-      // Private Functions
+      // Update Functions
+      void updateDt();
       void update();
+
+      // Render Functions
       void render();
   };
 }
