@@ -12,7 +12,11 @@
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "EBO.hpp"
+#include "Camera.hpp"
 
+// Constants
+extern const char*        ENGINE_NAME;
+extern const char*        ENGINE_VERSION;
 extern const unsigned int WINDOW_WIDTH;
 extern const unsigned int WINDOW_HEIGHT;
 extern const char*        WINDOW_TITLE;
@@ -37,9 +41,11 @@ namespace dp
       VAO* VAO1;
       VBO* VBO1;
       EBO* EBO1;
+      Camera* camera;
 
       // Functions
       bool Initialize();
+      void PrintTitle();
       void Run();
 
     private:

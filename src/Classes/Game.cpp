@@ -55,6 +55,11 @@ bool Game::Initialize()
   return true;
 }
 
+void Game::PrintTitle()
+{
+  std::cout << ENGINE_NAME << " " << ENGINE_VERSION << "\n" << std::endl;
+}
+
 void Game::Run()
 {
   // Main Loop
@@ -73,6 +78,8 @@ void Game::initializeGlfw()
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+  std::cout << "GLFW:   " << glfwGetVersionString() << std::endl;
 }
 
 bool Game::initializeWindow()
@@ -102,6 +109,9 @@ bool Game::initializeWindow()
   // Callbacks
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
+  // OpenGL Version
+  std::cout << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
+
   return true;
 }
 
@@ -115,7 +125,7 @@ bool Game::initializeGlew()
     glfwTerminate();
     return false;
   }
-  std::cout << "GLEW: " << glewGetString(GLEW_VERSION) << std::endl;
+  std::cout << "GLEW:   " << glewGetString(GLEW_VERSION) << std::endl;
   return true;
 }
 
@@ -137,6 +147,8 @@ bool Game::initializeMembers()
   this->VBO1->Unbind();
   this->EBO1->Unbind();
 
+  this->camera = new dp::Camera();
+
   return true;
 }
 
@@ -145,6 +157,8 @@ bool Game::initializeMembers()
 void Game::update()
 {
   glfwPollEvents();
+  this->camera->HandleMovement();
+  this->camera->UpdateMatrices();
 }
 
 void Game::render()
