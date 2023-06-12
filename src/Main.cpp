@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Headers/Shader.hpp"
+#include "Headers/VAO.hpp"
 #include "Headers/VBO.hpp"
 #include "Headers/EBO.hpp"
 #include "Utils/File.hpp"
@@ -74,6 +75,7 @@ int main()
   dp::Shader defaultShader("src/Shaders/default.vert", "src/Shaders/default.frag");
 
   // VBO
+  dp::VAO VAO1;
   dp::VBO VBO1(vertices, sizeof(vertices));
   dp::EBO EBO1(indices, sizeof(indices));
 
