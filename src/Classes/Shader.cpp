@@ -1,8 +1,10 @@
 #include "../Headers/Shader.hpp"
 
+using namespace dp;
+
 // Constructor
 
-dp::Shader::Shader(const char* vertexPath, const char* fragmentPath)
+Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
   // Shaders
   const char* vertexShaderSource = dp::file::getContents(vertexPath);
@@ -62,19 +64,19 @@ dp::Shader::Shader(const char* vertexPath, const char* fragmentPath)
 
 // Accessors
 
-const GLuint dp::Shader::getID() const
+const GLuint Shader::getID() const
 {
   return this->ID;
 }
 
 // Functions
 
-void dp::Shader::Use()
+void Shader::Use()
 {
   glUseProgram(this->ID);
 }
 
-void dp::Shader::Delete()
+void Shader::Delete()
 {
   glDeleteShader(this->ID);
 }

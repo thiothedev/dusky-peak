@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "Headers/Shader.hpp"
+#include "Headers/VBO.hpp"
 #include "Utils/File.hpp"
 
 // Constants
@@ -12,7 +13,7 @@ const char*        WINDOW_TITLE  = "GLFW";
 const unsigned int INFO_LOG_SIZE = 512;
 
 // Vertices and Indices
-const GLfloat vertices[] = {
+GLfloat vertices[] = {
   -0.5f,  -0.5f, 0.f,
    0.0f,  -0.5f, 0.f,
    0.5f,  -0.5f, 0.f,
@@ -20,7 +21,7 @@ const GLfloat vertices[] = {
    0.25f,  0.0f, 0.f,
    0.0f,   0.5f, 0.f,
 };
-const GLuint indices[] = {
+GLuint indices[] = {
   0, 1, 3,
   1, 2, 4,
   3, 4, 5,
@@ -70,6 +71,9 @@ int main()
 
   // Shader Program
   dp::Shader defaultShader("src/Shaders/default.vert", "src/Shaders/default.frag");
+
+  // VBO
+  dp::VBO VBO1(vertices, sizeof(vertices));
 
   // Main Loop
   while (!glfwWindowShouldClose(window))
