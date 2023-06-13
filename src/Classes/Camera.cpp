@@ -39,7 +39,7 @@ void Camera::HandleMovement(GLFWwindow* window, const float dt)
   }
 }
 
-void Camera::UpdateMatrices(const GLuint programID)
+void Camera::UpdateMatrices(GLFWwindow* window, const GLuint programID)
 {
   GLuint modelLoc = glGetUniformLocation(programID, "model");
   GLuint viewLoc = glGetUniformLocation(programID, "view");
@@ -50,7 +50,12 @@ void Camera::UpdateMatrices(const GLuint programID)
   glm::mat4 proj = glm::mat4(1.f);
 
   view = glm::translate(view, this->position);
-  proj = glm::perspective(glm::radians(CAMERA_FOV), (float)WINDOW_WIDTH / WINDOW_HEIGHT, CAMERA_NEAR, CAMERA_FAR);
+  proj = glm::perspective(
+    glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS ? glm::radians(CAMERA_ZOOM) : glm::radians(CAMERA_FOV),
+    (float)WINDOW_WIDTH / WINDOW_HEIGHT,
+    CAMERA_NEAR,
+    CAMERA_FAR
+  );
 
   glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
   glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));

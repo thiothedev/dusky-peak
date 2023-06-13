@@ -4,14 +4,32 @@ using namespace dp;
 
 // Vertices and Indices
 GLfloat vertices[] = {
-  -0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f,
-   0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
-   0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, 1.f, 1.f,
-  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 1.f,
+  -0.5f, -0.5f,  0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, // Front
+   0.5f, -0.5f,  0.5f, 0.f, 1.f, 0.f, 1.f,  0.f, // Front
+   0.0f,  0.5f,  0.0f, 0.f, 0.f, 1.f, 0.5f, 1.f, // Front
+   0.5f, -0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f,  0.f, // Right
+   0.5f, -0.5f, -0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, // Right
+   0.0f,  0.5f,  0.0f, 1.f, 0.f, 1.f, 0.5f, 1.f, // Right
+  -0.5f, -0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, // Back
+   0.5f, -0.5f, -0.5f, 0.f, 1.f, 0.f, 1.f,  0.f, // Back
+   0.0f,  0.5f,  0.0f, 0.f, 0.f, 1.f, 0.5f, 1.f, // Back
+  -0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f, 0.f,  0.f, // Left
+  -0.5f, -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, // Left
+   0.0f,  0.5f,  0.0f, 1.f, 0.f, 1.f, 0.5f, 1.f, // Left
+  -0.5f, -0.5f,  0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, // Bottom 1
+  -0.5f, -0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f,  1.f, // Bottom 1
+   0.5f, -0.5f,  0.5f, 0.f, 0.f, 1.f, 1.f,  0.f, // Bottom 1
+   0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f, 1.f,  1.f, // Bottom 2
+   0.5f, -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, // Bottom 2
+  -0.5f, -0.5f, -0.5f, 1.f, 0.f, 1.f, 0.f,  1.f, // Bottom 2
 };
 GLuint indices[] = {
-  0, 1, 3,
-  3, 2, 1,
+  0, 1, 2,
+  3, 4, 5,
+  6, 7, 8,
+  9, 10, 11,
+  12, 13, 14,
+  15, 16, 17,
 };
 
 // Callbacks
@@ -116,6 +134,9 @@ bool Game::initializeWindow()
   // Callbacks
   glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
+  // Tests
+  glEnable(GL_DEPTH_TEST);
+
   // OpenGL Version
   std::cout << "OpenGL: " << glGetString(GL_VERSION) << std::endl;
 
@@ -176,12 +197,12 @@ void Game::update()
   glfwPollEvents();
   this->updateDt();
   this->camera->HandleMovement(this->window, this->dt);
-  this->camera->UpdateMatrices(this->defaultShader->getID());
+  this->camera->UpdateMatrices(this->window, this->defaultShader->getID());
 }
 
 void Game::render()
 {
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   this->defaultShader->Use();
   this->bricksTexture->Bind();
   VAO1->Bind();

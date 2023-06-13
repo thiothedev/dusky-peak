@@ -15,6 +15,7 @@ extern const unsigned int INFO_LOG_SIZE;
 
 // Camera Constants
 extern const float CAMERA_FOV;
+extern const float CAMERA_ZOOM;
 extern const float CAMERA_NEAR;
 extern const float CAMERA_FAR;
 extern const float CAMERA_SPEED;

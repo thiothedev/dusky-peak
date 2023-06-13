@@ -21,7 +21,7 @@ namespace dp
 
       // Functions
       void HandleMovement(GLFWwindow* window, const float dt);
-      void UpdateMatrices(const GLuint programID);
+      void UpdateMatrices(GLFWwindow* window, const GLuint programID);
   };
 }
 
