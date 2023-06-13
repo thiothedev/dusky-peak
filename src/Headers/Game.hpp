@@ -13,6 +13,7 @@
 #include "VBO.hpp"
 #include "EBO.hpp"
 #include "Camera.hpp"
+#include "Texture.hpp"
 
 #include "../Utils/Image.hpp"
 #include "../Utils/Constants.hpp"
@@ -35,6 +36,7 @@ namespace dp
       VBO* VBO1;
       EBO* EBO1;
       Camera* camera;
+      Texture* bricksTexture;
 
       // Delta Time
       double prevTime = 0.f;

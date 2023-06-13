@@ -4,17 +4,14 @@ using namespace dp;
 
 // Vertices and Indices
 GLfloat vertices[] = {
-  -0.5f,  -0.5f, 0.f, 1.f, 0.f, 0.f,
-   0.0f,  -0.5f, 0.f, 0.f, 1.f, 0.f,
-   0.5f,  -0.5f, 0.f, 0.f, 0.f, 1.f,
-  -0.25f,  0.0f, 0.f, 1.f, 1.f, 0.f,
-   0.25f,  0.0f, 0.f, 0.f, 1.f, 1.f,
-   0.0f,   0.5f, 0.f, 1.f, 0.f, 1.f,
+  -0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f,
+   0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f, 1.f, 0.f,
+   0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, 1.f, 1.f,
+  -0.5f,  0.5f, 0.f, 1.f, 0.f, 0.f, 0.f, 1.f,
 };
 GLuint indices[] = {
   0, 1, 3,
-  1, 2, 4,
-  3, 4, 5,
+  3, 2, 1,
 };
 
 // Callbacks
@@ -27,11 +24,7 @@ void framebufferSizeCallback(GLFWwindow* window, int width, int height)
 
 Game::Game()
 {
-  int width, height;
-  unsigned char* data;
-  dp::image::loadFromPng("assets/Textures/bricks.png", &data, width, height);
 
-  delete[] data;
 }
 
 Game::~Game()
@@ -40,12 +33,15 @@ Game::~Game()
   this->VAO1->Delete();
   this->VBO1->Delete();
   this->EBO1->Delete();
+  this->bricksTexture->Delete();
   glfwTerminate();
 
   delete this->defaultShader;
   delete this->VAO1;
   delete this->VBO1;
   delete this->EBO1;
+  delete this->camera;
+  delete this->bricksTexture;
 }
 
 // Functions
@@ -151,14 +147,17 @@ bool Game::initializeMembers()
   this->VBO1->Bind();
   this->EBO1->Bind();
 
-  this->VAO1->LinkAttrib(*this->VBO1, 0, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)0);
-  this->VAO1->LinkAttrib(*this->VBO1, 1, 3, GL_FLOAT, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  this->VAO1->LinkAttrib(*this->VBO1, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
+  this->VAO1->LinkAttrib(*this->VBO1, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  this->VAO1->LinkAttrib(*this->VBO1, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
 
   this->VAO1->Unbind();
   this->VBO1->Unbind();
   this->EBO1->Unbind();
 
   this->camera = new dp::Camera();
+  this->bricksTexture = new Texture("assets/Textures/bricks.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+  this->bricksTexture->TextureUnit(*this->defaultShader, "tex0", 0);
 
   return true;
 }
@@ -184,7 +183,8 @@ void Game::render()
 {
   glClear(GL_COLOR_BUFFER_BIT);
   this->defaultShader->Use();
+  this->bricksTexture->Bind();
   VAO1->Bind();
-  glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, NULL);
+  glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
   glfwSwapBuffers(this->window);
 }
