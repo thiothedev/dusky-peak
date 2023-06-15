@@ -15,6 +15,8 @@ set(CMAKE_CXX_STANDARD 11)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glfw3 REQUIRED)
+find_package(glm REQUIRED)
+find_package(PNG REQUIRED)
 
 # Globs
 FILE(GLOB ClassSources src/Classes/*.cpp)
@@ -30,4 +32,4 @@ add_executable(
   ${UtilSources}
 )
 target_include_directories(${PROJECT_NAME} PUBLIC src)
-target_link_libraries(${PROJECT_NAME} PUBLIC GL GLEW glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC GL GLEW glfw glm::glm png)

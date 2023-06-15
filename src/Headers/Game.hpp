@@ -3,16 +3,20 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 
 #include "Shader.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "EBO.hpp"
+#include "Camera.hpp"
+#include "Texture.hpp"
 
-extern const unsigned int WINDOW_WIDTH;
-extern const unsigned int WINDOW_HEIGHT;
-extern const char*        WINDOW_TITLE;
+#include "../Utils/Image.hpp"
+#include "../Utils/Constants.hpp"
 
 // Callbacks
 void framebufferSizeCallback(GLFWwindow* window, int width, int height);
@@ -31,10 +35,20 @@ namespace dp
       VAO* VAO1;
       VBO* VBO1;
       EBO* EBO1;
+      Camera* camera;
+      Texture* bricksTexture;
+
+      // Delta Time
+      double prevTime = 0.f;
+      float dt = 0.f;
+
+      // Accessors
+      const float getDt() const;
 
       // Functions
-      bool Initialize();
-      void Run();
+      bool initialize();
+      void printTitle();
+      void run();
 
     private:
       GLFWwindow* window;
@@ -45,8 +59,11 @@ namespace dp
       bool initializeGlew();
       bool initializeMembers();
 
-      // Private Functions
+      // Update Functions
+      void updateDt();
       void update();
+
+      // Render Functions
       void render();
   };
 }

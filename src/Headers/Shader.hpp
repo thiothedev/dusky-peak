@@ -4,8 +4,7 @@
 #include <GL/glew.h>
 
 #include "../Utils/File.hpp"
-
-extern const unsigned int INFO_LOG_SIZE;
+#include "../Utils/Constants.hpp"
 
 namespace dp
 {
