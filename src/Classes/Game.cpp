@@ -322,6 +322,8 @@ void Game::render()
   this->bricksTexture->Bind();
 
   this->defaultShader->Use();
+  glm::vec3 cameraPosition = this->camera->getPosition();
+  glUniform3f(glGetUniformLocation(this->defaultShader->getID(), "cameraPosition"), cameraPosition.x, cameraPosition.y, cameraPosition.z);
   this->camera->UseMatrix(this->defaultShader->getID(), "cameraMatrix");
   VAO1->Bind();
   glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);

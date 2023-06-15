@@ -10,6 +10,12 @@ Camera::Camera()
 }
 
 // Accessors
+const glm::vec3 Camera::getPosition() const
+{
+  return this->position;
+}
+
+// Accessors
 
 void Camera::setConstraints(const unsigned int width, const unsigned int height)
 {

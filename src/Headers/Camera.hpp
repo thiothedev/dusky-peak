@@ -19,6 +19,9 @@ namespace dp
       // Constructor
       Camera();
 
+      // Accessors
+      const glm::vec3 getPosition() const;
+
       // Modifiers
       void setConstraints(const unsigned int width, const unsigned int height);
 
