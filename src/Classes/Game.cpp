@@ -2,26 +2,63 @@
 
 using namespace dp;
 
+glm::vec3 calculateNormal(const glm::vec3& v1, const glm::vec3& v2, const glm::vec3& v3) {
+  glm::vec3 edge1 = v2 - v1;
+  glm::vec3 edge2 = v3 - v1;
+  return glm::normalize(glm::cross(edge1, edge2));
+}
+
+glm::vec3 faceNormalFront = calculateNormal(
+  glm::vec3(-0.5f, -0.5f, 0.5f),
+  glm::vec3(0.5f, -0.5f, 0.5f),
+  glm::vec3(0.0f, 0.5f, 0.0f)
+);
+glm::vec3 faceNormalRight = calculateNormal(
+  glm::vec3(0.5f, -0.5f, 0.5f),
+  glm::vec3(0.5f, -0.5f, -0.5f),
+  glm::vec3(0.0f, 0.5f, 0.0f)
+);
+glm::vec3 faceNormalBack = calculateNormal(
+  glm::vec3(0.5f, -0.5f, -0.5f),
+  glm::vec3(-0.5f, -0.5f, -0.5f),
+  glm::vec3(0.0f, 0.5f, 0.0f)
+);
+glm::vec3 faceNormalLeft = calculateNormal(
+  glm::vec3(-0.5f, -0.5f, -0.5f),
+  glm::vec3(-0.5f, -0.5f, 0.5f),
+  glm::vec3(0.0f, 0.5f, 0.0f)
+);
+glm::vec3 faceNormalBottom1 = calculateNormal(
+  glm::vec3(-0.5f, -0.5f, 0.5f),
+  glm::vec3(-0.5f, -0.5f, -0.5f),
+  glm::vec3(0.5f, -0.5f, 0.5f)
+);
+glm::vec3 faceNormalBottom2 = calculateNormal(
+  glm::vec3(0.5f, -0.5f, -0.5f),
+  glm::vec3(0.5f, -0.5f, 0.5f),
+  glm::vec3(-0.5f, -0.5f, -0.5f)
+);
+
 // Vertices and Indices
 GLfloat vertices[] = {
-  -0.5f, -0.5f,  0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, // Front
-   0.5f, -0.5f,  0.5f, 0.f, 1.f, 0.f, 1.f,  0.f, // Front
-   0.0f,  0.5f,  0.0f, 0.f, 0.f, 1.f, 0.5f, 1.f, // Front
-   0.5f, -0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f,  0.f, // Right
-   0.5f, -0.5f, -0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, // Right
-   0.0f,  0.5f,  0.0f, 1.f, 0.f, 1.f, 0.5f, 1.f, // Right
-  -0.5f, -0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, // Back
-   0.5f, -0.5f, -0.5f, 0.f, 1.f, 0.f, 1.f,  0.f, // Back
-   0.0f,  0.5f,  0.0f, 0.f, 0.f, 1.f, 0.5f, 1.f, // Back
-  -0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f, 0.f,  0.f, // Left
-  -0.5f, -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, // Left
-   0.0f,  0.5f,  0.0f, 1.f, 0.f, 1.f, 0.5f, 1.f, // Left
-  -0.5f, -0.5f,  0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, // Bottom 1
-  -0.5f, -0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f,  1.f, // Bottom 1
-   0.5f, -0.5f,  0.5f, 0.f, 0.f, 1.f, 1.f,  0.f, // Bottom 1
-   0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f, 1.f,  1.f, // Bottom 2
-   0.5f, -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, // Bottom 2
-  -0.5f, -0.5f, -0.5f, 1.f, 0.f, 1.f, 0.f,  1.f, // Bottom 2
+  -0.5f, -0.5f,  0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Front
+   0.5f, -0.5f,  0.5f, 0.f, 1.f, 0.f, 1.f,  0.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Front
+   0.0f,  0.5f,  0.0f, 0.f, 0.f, 1.f, 0.5f, 1.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Front
+   0.5f, -0.5f,  0.5f, 1.f, 1.f, 0.f, 0.f,  0.f, faceNormalRight.x, faceNormalRight.y, faceNormalRight.z, // Right
+   0.5f, -0.5f, -0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, faceNormalRight.x, faceNormalRight.y, faceNormalRight.z, // Right
+   0.0f,  0.5f,  0.0f, 1.f, 0.f, 1.f, 0.5f, 1.f, faceNormalRight.x, faceNormalRight.y, faceNormalRight.z, // Right
+  -0.5f, -0.5f, -0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, faceNormalBack.x,  faceNormalBack.y,  faceNormalBack.z, // Back
+   0.5f, -0.5f, -0.5f, 0.f, 1.f, 0.f, 1.f,  0.f, faceNormalBack.x,  faceNormalBack.y,  faceNormalBack.z, // Back
+   0.0f,  0.5f,  0.0f, 0.f, 0.f, 1.f, 0.5f, 1.f, faceNormalBack.x,  faceNormalBack.y,  faceNormalBack.z, // Back
+  -0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f, 0.f,  0.f, faceNormalLeft.x,  faceNormalLeft.y,  faceNormalLeft.z, // Left
+  -0.5f, -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, faceNormalLeft.x,  faceNormalLeft.y,  faceNormalLeft.z, // Left
+   0.0f,  0.5f,  0.0f, 1.f, 0.f, 1.f, 0.5f, 1.f, faceNormalLeft.x,  faceNormalLeft.y,  faceNormalLeft.z, // Left
+  -0.5f, -0.5f,  0.5f, 1.f, 0.f, 0.f, 0.f,  0.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Bottom 1
+  -0.5f, -0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f,  1.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Bottom 1
+   0.5f, -0.5f,  0.5f, 0.f, 0.f, 1.f, 1.f,  0.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Bottom 1
+   0.5f, -0.5f, -0.5f, 1.f, 1.f, 0.f, 1.f,  1.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Bottom 2
+   0.5f, -0.5f,  0.5f, 0.f, 1.f, 1.f, 1.f,  0.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Bottom 2
+  -0.5f, -0.5f, -0.5f, 1.f, 0.f, 1.f, 0.f,  1.f, faceNormalFront.x, faceNormalFront.y, faceNormalFront.z, // Bottom 2
 };
 GLuint indices[] = {
   0, 1, 2,
@@ -32,14 +69,14 @@ GLuint indices[] = {
   15, 16, 17,
 };
 GLfloat lightVertices[] = {
-  -0.25f, -0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
-   0.25f, -0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
-  -0.25f, -0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
-   0.25f, -0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
-  -0.25f,  0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
-   0.25f,  0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
-  -0.25f,  0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
-   0.25f,  0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
+  -0.25f, -0.25f,  0.25f,
+   0.25f, -0.25f,  0.25f,
+  -0.25f, -0.25f, -0.25,
+   0.25f, -0.25f, -0.25,
+  -0.25f,  0.25f,  0.25f,
+   0.25f,  0.25f,  0.25f,
+  -0.25f,  0.25f, -0.25,
+   0.25f,  0.25f, -0.25,
 };
 GLuint lightIndices[] = {
   0, 1, 4, // Front
@@ -216,9 +253,10 @@ bool Game::initializeMembers()
   this->VBO1->Bind();
   this->EBO1->Bind();
 
-  this->VAO1->LinkAttrib(*this->VBO1, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
-  this->VAO1->LinkAttrib(*this->VBO1, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-  this->VAO1->LinkAttrib(*this->VBO1, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+  this->VAO1->LinkAttrib(*this->VBO1, 0, 3, GL_FLOAT, 11 * sizeof(GLfloat), (void*)0);
+  this->VAO1->LinkAttrib(*this->VBO1, 1, 3, GL_FLOAT, 11 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  this->VAO1->LinkAttrib(*this->VBO1, 2, 2, GL_FLOAT, 11 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+  this->VAO1->LinkAttrib(*this->VBO1, 3, 3, GL_FLOAT, 11 * sizeof(GLfloat), (void*)(8 * sizeof(GLfloat)));
 
   this->VAO1->Unbind();
   this->VBO1->Unbind();
@@ -232,9 +270,7 @@ bool Game::initializeMembers()
   this->VBO2->Bind();
   this->EBO2->Bind();
 
-  this->VAO2->LinkAttrib(*this->VBO2, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
-  this->VAO2->LinkAttrib(*this->VBO2, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-  this->VAO2->LinkAttrib(*this->VBO2, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+  this->VAO2->LinkAttrib(*this->VBO2, 0, 3, GL_FLOAT, 0, (void*)0);
 
   this->VAO2->Unbind();
   this->VBO2->Unbind();
@@ -249,7 +285,15 @@ bool Game::initializeMembers()
   this->lightModel = glm::translate(this->lightModel, this->lightPosition);
   this->pyramidModel = glm::translate(this->pyramidModel, this->pyramidPosition);
 
+  glm::vec4 lightColor = glm::vec4(1.f, 0.f, 0.f, 1.f);
+
+  this->lightShader->Use();
+  glUniformMatrix4fv(glGetUniformLocation(this->lightShader->getID(), "model"), 1, GL_FALSE, glm::value_ptr(this->lightModel));
+  glUniform4f(glGetUniformLocation(this->lightShader->getID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+  this->defaultShader->Use();
   glUniformMatrix4fv(glGetUniformLocation(this->defaultShader->getID(), "model"), 1, GL_FALSE, glm::value_ptr(this->pyramidModel));
+  glUniform4f(glGetUniformLocation(this->defaultShader->getID(), "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+  glUniform3f(glGetUniformLocation(this->defaultShader->getID(), "lightPosition"), lightPosition.x, lightPosition.y, lightPosition.z);
 
   return true;
 }
@@ -274,12 +318,18 @@ void Game::update()
 void Game::render()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  this->bricksTexture->Bind();
+
   this->defaultShader->Use();
   this->camera->UseMatrix(this->defaultShader->getID(), "cameraMatrix");
-  this->bricksTexture->Bind();
   VAO1->Bind();
   glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+  
+  this->lightShader->Use();
+  this->camera->UseMatrix(this->lightShader->getID(), "cameraMatrix");
   VAO2->Bind();
   glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+
   glfwSwapBuffers(this->window);
 }

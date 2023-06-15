@@ -35,7 +35,7 @@ namespace dp
       Shader* lightShader;
 
       // Positions and Models
-      glm::vec3 lightPosition = glm::vec3(1.5f, 1.5f, 1.5f);
+      glm::vec3 lightPosition = glm::vec3(0.f, 0.f, -2.f);
       glm::mat4 lightModel = glm::mat4(1.0f);
       glm::vec3 pyramidPosition = glm::vec3(0.0f, 0.0f, 0.0f);
       glm::mat4 pyramidModel = glm::mat4(1.0f);

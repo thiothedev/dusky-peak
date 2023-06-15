@@ -102,7 +102,6 @@ void Camera::UpdateMatrices(GLFWwindow* window, const GLuint programID)
 {
   glm::mat4 view = glm::mat4(1.f);
   glm::mat4 proj = glm::mat4(1.f);
-  glm::vec4 lightColor = glm::vec4(1.f, 1.f, 1.f, 1.f);
 
   view = glm::lookAt(this->position, this->position + this->orientation, this->up);
   proj = glm::perspective(
