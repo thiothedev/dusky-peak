@@ -177,7 +177,9 @@ bool Game::initializeMembers()
   this->EBO1->Unbind();
 
   this->camera = new dp::Camera();
-  this->bricksTexture = new Texture("assets/Textures/bricks.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+  this->camera->setConstraints(WINDOW_WIDTH, WINDOW_HEIGHT);
+
+  this->bricksTexture = new Texture("assets/Textures/tiles.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
   this->bricksTexture->TextureUnit(*this->defaultShader, "tex0", 0);
 
   return true;
