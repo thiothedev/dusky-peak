@@ -25,6 +25,7 @@ namespace dp
       // Functions
       void HandleMovement(GLFWwindow* window, const float dt);
       void UpdateMatrices(GLFWwindow* window, const GLuint programID);
+      void UseMatrix(const GLuint programID, const char* uniform);
 
     private:
       // Constraints
@@ -36,6 +37,7 @@ namespace dp
       glm::vec3 position = glm::vec3(0.f);
       glm::vec3 orientation = glm::vec3(0.f, 0.f, -1.f);
       glm::vec3 up = glm::vec3(0.f, 1.f, 0.f);
+      glm::mat4 cameraMatrix = glm::mat4(1.0f);
   };
 }
 

@@ -2,7 +2,7 @@
 
 // Engine Constants
 const char* ENGINE_NAME    = "Dusky Peak";
-const char* ENGINE_VERSION = "0.1";
+const char* ENGINE_VERSION = "0.2";
 
 // Window Constants
 const unsigned int WINDOW_WIDTH   = 800;

@@ -23,6 +23,19 @@ void Camera::HandleMovement(GLFWwindow* window, const float dt)
 {
   float cameraSpeed = CAMERA_SPEED * dt;
 
+  if (glfwGetKey(window, GLFW_KEY_B) == GLFW_PRESS)
+  {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+  }
+  if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+  {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+  }
+  if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+  {
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+  }
+
   if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
   {
     this->mouseLocked = true;
@@ -87,13 +100,9 @@ void Camera::HandleMovement(GLFWwindow* window, const float dt)
 
 void Camera::UpdateMatrices(GLFWwindow* window, const GLuint programID)
 {
-  GLuint modelLoc = glGetUniformLocation(programID, "model");
-  GLuint viewLoc = glGetUniformLocation(programID, "view");
-  GLuint projLoc = glGetUniformLocation(programID, "proj");
-
-  glm::mat4 model = glm::mat4(1.f);
   glm::mat4 view = glm::mat4(1.f);
   glm::mat4 proj = glm::mat4(1.f);
+  glm::vec4 lightColor = glm::vec4(1.f, 1.f, 1.f, 1.f);
 
   view = glm::lookAt(this->position, this->position + this->orientation, this->up);
   proj = glm::perspective(
@@ -102,8 +111,11 @@ void Camera::UpdateMatrices(GLFWwindow* window, const GLuint programID)
     CAMERA_NEAR,
     CAMERA_FAR
   );
+  this->cameraMatrix = proj * view;
+}
 
-  glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-  glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-  glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(proj));
+void Camera::UseMatrix(const GLuint programID, const char* uniform)
+{
+  GLuint cameraMatrixLoc = glGetUniformLocation(programID, uniform);
+  glUniformMatrix4fv(cameraMatrixLoc, 1, GL_FALSE, glm::value_ptr(this->cameraMatrix));
 }

@@ -31,6 +31,30 @@ GLuint indices[] = {
   12, 13, 14,
   15, 16, 17,
 };
+GLfloat lightVertices[] = {
+  -0.25f, -0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
+   0.25f, -0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
+  -0.25f, -0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
+   0.25f, -0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
+  -0.25f,  0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
+   0.25f,  0.25f,  0.25f, 1.f, 1.f, 1.f, 0.f, 0.f,
+  -0.25f,  0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
+   0.25f,  0.25f, -0.25,  1.f, 1.f, 1.f, 0.f, 0.f,
+};
+GLuint lightIndices[] = {
+  0, 1, 4, // Front
+  5, 4, 1, // Front
+  1, 3, 5, // Right
+  7, 5, 3, // Right
+  3, 2, 7, // Back
+  6, 7, 2, // Back
+  2, 6, 0, // Left
+  4, 6, 0, // Left
+  4, 6, 5, // Top
+  7, 6, 5, // Top
+  3, 2, 1, // Bottom
+  0, 1, 2, // Bottom
+};
 
 // Callbacks
 void framebufferSizeCallback(GLFWwindow* window, int width, int height)
@@ -48,18 +72,34 @@ Game::Game()
 Game::~Game()
 {
   this->defaultShader->Delete();
+  this->lightShader->Delete();
+
   this->VAO1->Delete();
-  this->VBO1->Delete();
   this->EBO1->Delete();
+  this->VBO1->Delete();
+
+  this->VAO2->Delete();
+  this->VBO2->Delete();
+  this->EBO2->Delete();
+
   this->bricksTexture->Delete();
-  glfwTerminate();
 
   delete this->defaultShader;
+  delete this->lightShader;
+
   delete this->VAO1;
   delete this->VBO1;
   delete this->EBO1;
-  delete this->camera;
+
+  delete this->VAO2;
+  delete this->VBO2;
+  delete this->EBO2;
+
   delete this->bricksTexture;
+  delete this->camera;
+
+  glfwDestroyWindow(window);
+  glfwTerminate();
 }
 
 // Functions
@@ -69,6 +109,7 @@ bool Game::initialize()
   this->initializeGlfw();
   if (!this->initializeWindow()) return false;
   if (!this->initializeGlew()) return false;
+  if (!this->initializeShaders()) return false;
   if (!this->initializeMembers()) return false;
   return true;
 }
@@ -157,9 +198,16 @@ bool Game::initializeGlew()
   return true;
 }
 
-bool Game::initializeMembers()
+bool Game::initializeShaders()
 {
   this->defaultShader = new Shader("src/Shaders/default.vert", "src/Shaders/default.frag");
+  this->lightShader = new Shader("src/Shaders/light.vert", "src/Shaders/light.frag");
+  
+  return true;
+}
+
+bool Game::initializeMembers()
+{
   this->VAO1 = new VAO();
   this->VBO1 = new VBO(vertices, sizeof(vertices));
   this->EBO1 = new EBO(indices, sizeof(indices));
@@ -176,11 +224,32 @@ bool Game::initializeMembers()
   this->VBO1->Unbind();
   this->EBO1->Unbind();
 
+  this->VAO2 = new VAO();
+  this->VBO2 = new VBO(lightVertices, sizeof(lightVertices));
+  this->EBO2 = new EBO(lightIndices, sizeof(lightIndices));
+
+  this->VAO2->Bind();
+  this->VBO2->Bind();
+  this->EBO2->Bind();
+
+  this->VAO2->LinkAttrib(*this->VBO2, 0, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)0);
+  this->VAO2->LinkAttrib(*this->VBO2, 1, 3, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
+  this->VAO2->LinkAttrib(*this->VBO2, 2, 2, GL_FLOAT, 8 * sizeof(GLfloat), (void*)(6 * sizeof(GLfloat)));
+
+  this->VAO2->Unbind();
+  this->VBO2->Unbind();
+  this->EBO2->Unbind();
+
   this->camera = new dp::Camera();
   this->camera->setConstraints(WINDOW_WIDTH, WINDOW_HEIGHT);
 
   this->bricksTexture = new Texture("assets/Textures/tiles.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
   this->bricksTexture->TextureUnit(*this->defaultShader, "tex0", 0);
+
+  this->lightModel = glm::translate(this->lightModel, this->lightPosition);
+  this->pyramidModel = glm::translate(this->pyramidModel, this->pyramidPosition);
+
+  glUniformMatrix4fv(glGetUniformLocation(this->defaultShader->getID(), "model"), 1, GL_FALSE, glm::value_ptr(this->pyramidModel));
 
   return true;
 }
@@ -206,8 +275,11 @@ void Game::render()
 {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   this->defaultShader->Use();
+  this->camera->UseMatrix(this->defaultShader->getID(), "cameraMatrix");
   this->bricksTexture->Bind();
   VAO1->Bind();
   glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
+  VAO2->Bind();
+  glDrawElements(GL_TRIANGLES, sizeof(lightIndices) / sizeof(GLuint), GL_UNSIGNED_INT, NULL);
   glfwSwapBuffers(this->window);
 }
